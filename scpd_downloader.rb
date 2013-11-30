@@ -37,6 +37,11 @@ page = agent.get(CURRENT_QUARTER_URL)
 
 # Fill out the login form
 while (page.form("login") && !(page.content =~ /Two-step authentication/))
+  #send the sms code
+  login_form = page.form("multifactor_send") 
+  page = agent.submit(login_form, login_form.buttons.first)
+
+  #now enter the received sms code
   login_form = page.form("login")
   print "SUNet ID: "
   login_form.username = gets.strip
